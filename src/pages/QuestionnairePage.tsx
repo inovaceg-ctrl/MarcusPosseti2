@@ -321,52 +321,54 @@ const QuestionnairePage = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-purple-900 to-indigo-900 text-white p-4">
-      <Card className="w-full max-w-3xl bg-white/10 backdrop-blur-sm border-none shadow-lg p-8 space-y-8 text-center">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-purple-900 to-indigo-900 text-white p-4 sm:p-8">
+      <Card className="w-full max-w-4xl bg-white/10 backdrop-blur-md border border-purple-500/30 shadow-2xl rounded-xl p-6 sm:p-10 space-y-8 text-center">
         <CardHeader>
-          <CardTitle className="text-4xl font-extrabold text-purple-200">
+          <CardTitle className="text-4xl sm:text-5xl font-extrabold text-purple-200 leading-tight">
             {isResultPage ? "Seu Mapa Astral e Horóscopo Diário" : "Questionário Astrológico"}
           </CardTitle>
         </CardHeader>
         <CardContent className="p-0">
           {!isResultPage ? (
             <div className="space-y-6">
-              <h2 className="text-2xl font-semibold text-gray-100">{currentQuestion.label}</h2>
+              <h2 className="text-2xl sm:text-3xl font-semibold text-gray-100 mb-6">
+                {currentQuestion.label}
+              </h2>
               {currentQuestion.type === "text" && (
                 <Input
                   type="text"
                   placeholder={currentQuestion.placeholder}
-                  value={answers[currentQuestion.id] || ""}
+                  value={(answers[currentQuestion.id] as string) || ""}
                   onChange={(e) => handleInputChange(currentQuestion.id, e.target.value)}
-                  className="bg-white/20 border-purple-400 text-white placeholder-gray-300 focus:ring-purple-500 focus:border-purple-500"
+                  className="w-full bg-white/20 border-purple-400 text-white placeholder-gray-300 focus:ring-purple-500 focus:border-purple-500 p-3 sm:p-4 rounded-md text-base sm:text-lg"
                 />
               )}
               {currentQuestion.type === "date" && (
                 <Input
                   type="date"
-                  value={answers[currentQuestion.id] || ""}
+                  value={(answers[currentQuestion.id] as string) || ""}
                   onChange={(e) => handleInputChange(currentQuestion.id, e.target.value)}
-                  className="bg-white/20 border-purple-400 text-white focus:ring-purple-500 focus:border-purple-500"
+                  className="w-full bg-white/20 border-purple-400 text-white focus:ring-purple-500 focus:border-purple-500 p-3 sm:p-4 rounded-md text-base sm:text-lg"
                 />
               )}
               {currentQuestion.type === "time" && (
                 <Input
                   type="time"
-                  value={answers[currentQuestion.id] || ""}
+                  value={(answers[currentQuestion.id] as string) || ""}
                   onChange={(e) => handleInputChange(currentQuestion.id, e.target.value)}
-                  className="bg-white/20 border-purple-400 text-white focus:ring-purple-500 focus:border-purple-500"
+                  className="w-full bg-white/20 border-purple-400 text-white focus:ring-purple-500 focus:border-purple-500 p-3 sm:p-4 rounded-md text-base sm:text-lg"
                 />
               )}
               {currentQuestion.type === "radio" && (
                 <RadioGroup
                   onValueChange={(value) => handleRadioChange(currentQuestion.id, value)}
-                  value={answers[currentQuestion.id] || ""}
-                  className="flex flex-col space-y-2 items-start"
+                  value={(answers[currentQuestion.id] as string) || ""}
+                  className="flex flex-col space-y-4 items-start"
                 >
-                  {currentQuestion.options.map((option) => (
-                    <div key={option.value} className="flex items-center space-x-2">
-                      <RadioGroupItem value={option.value} id={`${currentQuestion.id}-${option.value}`} />
-                      <Label htmlFor={`${currentQuestion.id}-${option.value}`} className="text-lg text-gray-200">
+                  {currentQuestion.options?.map((option) => (
+                    <div key={option.value} className="flex items-center space-x-3">
+                      <RadioGroupItem value={option.value} id={`${currentQuestion.id}-${option.value}`} className="border-purple-400 data-[state=checked]:bg-purple-600 data-[state=checked]:text-white w-5 h-5 sm:w-6 sm:h-6" />
+                      <Label htmlFor={`${currentQuestion.id}-${option.value}`} className="text-lg sm:text-xl text-gray-200 cursor-pointer">
                         {option.label}
                       </Label>
                     </div>
@@ -374,24 +376,24 @@ const QuestionnairePage = () => {
                 </RadioGroup>
               )}
               {currentQuestion.type === "checkbox" && (
-                <div className="flex items-center space-x-2 justify-center">
+                <div className="flex items-center space-x-3 justify-center">
                   <Checkbox
                     id={currentQuestion.id}
-                    checked={answers[currentQuestion.id] || false}
+                    checked={(answers[currentQuestion.id] as boolean) || false}
                     onCheckedChange={(checked: boolean) => handleCheckboxChange(currentQuestion.id, checked)}
-                    className="border-purple-400 data-[state=checked]:bg-purple-600 data-[state=checked]:text-white"
+                    className="border-purple-400 data-[state=checked]:bg-purple-600 data-[state=checked]:text-white w-5 h-5 sm:w-6 sm:h-6"
                   />
-                  <Label htmlFor={currentQuestion.id} className="text-lg text-gray-200">
-                    {currentQuestion.options[0].label}
+                  <Label htmlFor={currentQuestion.id} className="text-lg sm:text-xl text-gray-200 cursor-pointer">
+                    {currentQuestion.options?.[0].label}
                   </Label>
                 </div>
               )}
 
-              <div className="flex justify-between mt-8">
+              <div className="flex justify-between mt-10">
                 {currentStep > 0 && (
                   <Button
                     onClick={goToPreviousStep}
-                    className="bg-gray-600 hover:bg-gray-700 text-white px-6 py-3 rounded-full shadow-lg transition-all duration-300 ease-in-out"
+                    className="bg-gray-600 hover:bg-gray-700 text-white px-8 py-4 rounded-full shadow-lg transition-all duration-300 ease-in-out text-lg sm:text-xl"
                   >
                     Anterior
                   </Button>
@@ -399,14 +401,14 @@ const QuestionnairePage = () => {
                 {isLastQuestion ? (
                   <Button
                     onClick={generateResult}
-                    className="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-full shadow-lg transition-all duration-300 ease-in-out ml-auto"
+                    className="bg-green-600 hover:bg-green-700 text-white px-10 py-5 rounded-full shadow-xl transition-all duration-300 ease-in-out text-xl sm:text-2xl ml-auto"
                   >
                     Gerar Meu Mapa Astral
                   </Button>
                 ) : (
                   <Button
                     onClick={goToNextStep}
-                    className="bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-full shadow-lg transition-all duration-300 ease-in-out ml-auto"
+                    className="bg-purple-600 hover:bg-purple-700 text-white px-8 py-4 rounded-full shadow-lg transition-all duration-300 ease-in-out text-lg sm:text-xl ml-auto"
                   >
                     Próximo
                   </Button>
@@ -416,46 +418,46 @@ const QuestionnairePage = () => {
           ) : (
             // Result Page
             <div className="text-left space-y-6">
-              <h2 className="text-3xl font-bold text-purple-300">Olá, {result?.name || "visitante"}!</h2>
-              <p className="text-xl text-gray-200">Seu Signo Solar: <span className="font-bold text-purple-300">{result?.solarSign}</span></p>
-              <p className="text-lg text-gray-300">{result?.personalitySummary}</p>
+              <h2 className="text-3xl sm:text-4xl font-bold text-purple-300 mb-4">Olá, {result?.name || "visitante"}!</h2>
+              <p className="text-xl sm:text-2xl text-gray-200">Seu Signo Solar: <span className="font-bold text-purple-300">{result?.solarSign}</span></p>
+              <p className="text-lg sm:text-xl text-gray-300 leading-relaxed">{result?.personalitySummary}</p>
 
-              <h3 className="text-2xl font-semibold text-purple-300 mt-6">Relacionamentos</h3>
-              <p className="text-lg text-gray-300">{result?.relationshipsText}</p>
+              <h3 className="text-2xl sm:text-3xl font-semibold text-purple-300 mt-8">Relacionamentos</h3>
+              <p className="text-lg sm:text-xl text-gray-300 leading-relaxed">{result?.relationshipsText}</p>
 
-              <h3 className="text-2xl font-semibold text-purple-300 mt-6">Carreira</h3>
-              <p className="text-lg text-gray-300">{result?.careerText}</p>
+              <h3 className="text-2xl sm:text-3xl font-semibold text-purple-300 mt-8">Carreira</h3>
+              <p className="text-lg sm:text-xl text-gray-300 leading-relaxed">{result?.careerText}</p>
 
-              <h3 className="text-2xl font-semibold text-purple-300 mt-6">Saúde</h3>
-              <p className="text-lg text-gray-300">{result?.healthText}</p>
+              <h3 className="text-2xl sm:text-3xl font-semibold text-purple-300 mt-8">Saúde</h3>
+              <p className="text-lg sm:text-xl text-gray-300 leading-relaxed">{result?.healthText}</p>
 
-              <h3 className="text-2xl font-semibold text-purple-300 mt-6">Recomendações Personalizadas</h3>
-              <p className="text-lg text-gray-300">{result?.recommendations}</p>
+              <h3 className="text-2xl sm:text-3xl font-semibold text-purple-300 mt-8">Recomendações Personalizadas</h3>
+              <p className="text-lg sm:text-xl text-gray-300 leading-relaxed">{result?.recommendations}</p>
 
-              <p className="text-lg text-gray-300 mt-6">
+              <p className="text-lg sm:text-xl text-gray-300 mt-8">
                 Para um mapa astral completo e personalizado, com insights profundos sobre todos os aspectos da sua vida, agende uma consulta individual com Marcus Posseti.
               </p>
 
-              <h3 className="text-2xl font-semibold text-purple-300 mt-6">Agende Sua Consulta Personalizada</h3>
-              <p className="text-lg text-gray-300">marcuspossenti@hotmail.com</p>
+              <h3 className="text-2xl sm:text-3xl font-semibold text-purple-300 mt-8">Agende Sua Consulta Personalizada</h3>
+              <p className="text-lg sm:text-xl text-gray-300">marcuspossenti@hotmail.com</p>
               <a
                 href={`https://wa.me/554199786765?text=Olá%20Marcus,%20gostaria%20de%20agendar%20uma%20consulta%20personalizada%20para%20o%20meu%20mapa%20astral.%20Meu%20nome%20é%20${encodeURIComponent(result?.name || "")}.`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-block bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-full shadow-lg transition-all duration-300 ease-in-out mt-4"
+                className="inline-block bg-green-500 hover:bg-green-600 text-white px-8 py-4 rounded-full shadow-lg transition-all duration-300 ease-in-out mt-6 text-lg sm:text-xl"
               >
                 Clique aqui para ver seu mapa astral completo (WhatsApp)
               </a>
 
               {result?.receiveUpdates && result?.whatsapp && (
-                <p className="text-md text-gray-400 mt-4">
+                <p className="text-md sm:text-lg text-gray-400 mt-6">
                   Você optou por receber horóscopos diários e atualizações no WhatsApp. Seu número ({result.whatsapp}) será adicionado à lista de transmissão de Marcus Posseti.
                 </p>
               )}
 
               <Button
                 onClick={handleRetakeQuestionnaire}
-                className="bg-gray-600 hover:bg-gray-700 text-white px-6 py-3 rounded-full shadow-lg transition-all duration-300 ease-in-out mt-8"
+                className="bg-gray-600 hover:bg-gray-700 text-white px-8 py-4 rounded-full shadow-lg transition-all duration-300 ease-in-out mt-10 text-lg sm:text-xl"
               >
                 Fazer Questionário Novamente
               </Button>
