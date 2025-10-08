@@ -11,7 +11,7 @@ const AstrologyPage = () => {
       <Card className="w-full max-w-3xl bg-white/10 backdrop-blur-sm border-none shadow-lg p-8 space-y-8 text-center">
         <CardContent className="p-0">
           <img
-            src="/placeholder.svg" // Placeholder for Marcus Posseti's photo
+            src="/marcus_posseti.jpg" // Using the uploaded photo
             alt="Marcus Posseti"
             className="w-40 h-40 rounded-full mx-auto mb-6 object-cover border-4 border-purple-400"
           />
